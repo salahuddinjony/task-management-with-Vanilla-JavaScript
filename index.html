@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h4 id="clock"></h4>
+        <h1 style="color: blueviolet;">Task Manager</h1>
+
+        <!-- Input to add task -->
+       <div>
+        <input type="text" id="taskInput" placeholder="Add a new task..." />
+        <button id="addTaskBtn">Add Task</button>
+       </div>
+
+        <!-- Task List -->
+        <ul id="taskList"></ul>
+
+        <!-- Completed task counter -->
+        <p>Completed tasks: <span id="completedCount">0</span></p>
+
+        <!-- Graph to show task completion progress -->
+
+        <div class="graph-container">
+            <canvas id="taskCompletionChart"></canvas>
+        </div>
+       
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

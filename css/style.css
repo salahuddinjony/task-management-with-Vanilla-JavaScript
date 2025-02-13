@@ -1,0 +1,157 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 600px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button.deleteBtn, button.editBtn {
+    font-size: 15px;
+    text-transform: capitalize;
+}
+
+button.deleteBtn {
+    background-color: transparent;
+    color: #CB5543;
+}
+
+button.editBtn {
+    background-color: transparent;
+    color: #578CB9;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-height: 280px;
+    width: 100%;
+    overflow: auto;
+    font-size: 15px;
+}
+
+li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+li span {
+    flex-grow: 1;
+    background-color: inherit;
+    padding: 10px;
+    border-radius: 4px;
+    white-space: normal;
+    word-break: break-word;
+}
+
+li.completed {
+    text-decoration: line-through;
+    background-color: #d3ffd3;
+}
+
+.completedCount {
+    margin-top: 20px;
+}
+
+/* Media Queries for mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        width: 90%; /* Make the container take up more space on smaller screens */
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px; /* Adjust heading size for smaller screens */
+    }
+
+    input[type="text"] {
+        width: 90%; /* Input takes up 90% of the screen width */
+    }
+
+    ul {
+        max-height: 250px; /* Reduce the max-height of the list */
+    }
+
+    li {
+        padding: 8px; /* Less padding on smaller screens */
+    }
+
+    button {
+        padding: 8px 15px; /* Smaller buttons on mobile */
+    }
+}
+
+/* Additional styles for very small screens like phones in portrait mode */
+@media (max-width: 480px) {
+    .container {
+        width: 100%; /* Full-width container on very small screens */
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 18px; /* Even smaller heading size */
+    }
+
+    input[type="text"] {
+        width: 100%; /* Input takes up the full width */
+    }
+
+    button {
+        padding: 8px 10px; /* Smaller buttons */
+        font-size: 14px; /* Adjust button font size */
+    }
+
+    ul {
+        max-height: 220px; /* Reduce max-height further */
+    }
+
+    li {
+        padding: 6px; /* Less padding on smaller screens */
+    }
+
+    .completedCount {
+        font-size: 14px; /* Smaller font size for the completed count */
+    }
+}
