@@ -121,6 +121,11 @@ li.completed {
     button {
         padding: 8px 15px; /* Smaller buttons on mobile */
     }
+    input[type="text"] {
+        width:70%;
+       
+    }
+
 }
 
 /* Additional styles for very small screens like phones in portrait mode */
@@ -153,5 +158,9 @@ li.completed {
 
     .completedCount {
         font-size: 14px; /* Smaller font size for the completed count */
+    }
+    input[type="text"] {
+        width:70%;
+       
     }
 }
