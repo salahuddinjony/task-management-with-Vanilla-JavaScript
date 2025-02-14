@@ -3,41 +3,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskInput = document.getElementById("taskInput");
     const taskList = document.getElementById("taskList");
     const completedCount = document.getElementById("completedCount");
-
-    const clock=document.getElementById("clock");
-    const date=document.getElementById("date");
-
-    setInterval(clockTimer,1000);
-
-    function clockTimer(){
-        const date=new Date();
-        const hr=date.getHours();
-        const mn=date.getMinutes();
-        const sec=date.getSeconds();
-        var months = [
-            "January", "February", "March", "April", "May", "June", 
-            "July", "August", "September", "October", "November", "December"
-        ];
-        // var days = [
-        //     "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-        // ];
-        const monthName = months[date.getMonth()];  
-        const dayName = date.getDate();      
-        
-
-        clock.innerHTML=hr+":"+mn+":"+sec+"("+dayName+" "+monthName+")";
-    }
-
-    let completedTasks = 0;
-    const completedTasksData = [];
-
     const taskCompletionChart = document.getElementById('taskCompletionChart');
+
+    let tasksData = []; // Store individual task details
+
     const chart = new Chart(taskCompletionChart, {
         type: 'bar',
         data: {
             labels: [],
             datasets: [{
-                label: 'Completed Tasks',
+                label: 'Task Completion Status',
                 data: [],
                 backgroundColor: 'rgba(75, 192, 192, 0.5)',
                 borderColor: 'rgba(75, 192, 192, 1)',
@@ -47,74 +22,102 @@ document.addEventListener("DOMContentLoaded", function () {
         options: {
             responsive: true,
             scales: {
-                x: { beginAtZero: true },
-                y: { beginAtZero: true }
+                y: {
+                    beginAtZero: true,
+                    max: 1,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
             }
         }
     });
 
+    let completed = 0;
+
     addTaskBtn.addEventListener("click", function () {
         const taskText = taskInput.value.trim();
         if (taskText) {
+            const createdTime = new Date(); // Store the exact Date object
+            const formattedTime = createdTime.toLocaleTimeString();
+            const taskId = tasksData.length;
+
             const li = document.createElement("li");
             li.innerHTML = `
-                <span>${taskText}</span>
+                <span>${taskText} <span class="datesize">(${formattedTime})</span></span>
                 <button class="editBtn"><i class="fa fa-edit"></i></button>
                 <button class="deleteBtn"><i class="fa fa-trash"></i></button>
                 <input type="checkbox" class="completeBtn" />
+                <span class="completion-time"></span>
             `;
             taskList.appendChild(li);
-            alert("Added!");
+
+            alert("Task Added!");
             taskInput.value = '';
+
+            tasksData.push({
+                id: taskId,
+                name: `${taskText} (${formattedTime})`,
+                createdTime: createdTime,
+                completedTime: null,
+                completed: 0
+            });
+
+            updateChart();
 
             const completeBtn = li.querySelector(".completeBtn");
             const deleteBtn = li.querySelector(".deleteBtn");
             const editBtn = li.querySelector(".editBtn");
+            const completionTimeSpan = li.querySelector(".completion-time");
 
             completeBtn.addEventListener("change", function () {
                 if (completeBtn.checked) {
-                    li.classList.add("completed");
-                    completedTasks++;
+                    li.classList.add('success');
+                    const completedTime = new Date();
+                    const totalSeconds = Math.floor((completedTime - tasksData[taskId].createdTime) / 1000);
+                    const minutes = Math.floor(totalSeconds / 60);
+                    const seconds = totalSeconds % 60;
+                    tasksData[taskId].completedTime = completedTime;
+                    tasksData[taskId].completed = 1;
+                    completed++;
+
+                    // Show completion time in UI
+                    completionTimeSpan.innerHTML =`✅ Completed in ${minutes} min ${seconds} sec`;
                 } else {
-                    li.classList.remove("completed");
-                    completedTasks--;
+                    tasksData[taskId].completedTime = null;
+                    tasksData[taskId].completed = 0;
+                    li.classList.remove('success');
+                    completed--;
+                    completionTimeSpan.innerHTML = ""; // Clear completion time if unchecked
                 }
-                completedCount.textContent = completedTasks;
+                completedCount.innerHTML = completed;
                 updateChart();
             });
 
             deleteBtn.addEventListener("click", function () {
+                tasksData = tasksData.filter(task => task.id !== taskId);
                 taskList.removeChild(li);
                 if (completeBtn.checked) {
-                    completedTasks--;
+                    completed--;
+                    completedCount.innerHTML = completed;
                 }
-                completedCount.textContent = completedTasks;
-                // alert("Deleted!");
                 updateChart();
             });
 
             editBtn.addEventListener("click", function () {
                 const newTaskText = prompt("Edit your task:", taskText);
                 if (newTaskText) {
-                    li.querySelector("span").textContent = newTaskText;
+                    li.querySelector("span").innerHTML = `${newTaskText} <span class="datesize">(${formattedTime})</span>`;
+                    tasksData[taskId].name = `${newTaskText} (${formattedTime})`;
+                    updateChart();
                 }
             });
         }
     });
 
     function updateChart() {
-        const today = new Date().toLocaleDateString();
-
-        if (completedTasksData.length === 0 || completedTasksData[completedTasksData.length - 1].date !== today) {
-            completedTasksData.push({
-                date: today,
-                completed: completedTasks
-            });
-
-            chart.data.labels.push(today);
-            chart.data.datasets[0].data.push(completedTasks);
-
-            chart.update();
-        }
+        chart.data.labels = tasksData.map(task => task.name);
+        chart.data.datasets[0].data = tasksData.map(task => task.completed);
+        chart.update();
     }
 });
