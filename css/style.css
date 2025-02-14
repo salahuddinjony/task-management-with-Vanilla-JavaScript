@@ -5,7 +5,7 @@ body {
     width: 100%;
     text-transform: capitalize;
     margin: 0;
-    overflow-x: hidden; 
+    overflow-x: hidden !important; 
 }
 
 h1 {
@@ -137,7 +137,16 @@ li span {
     .container {
         width: 80%;
         padding: 15px;
+        overflow-x: hidden;
     }
+    button.deleteBtn {
+        font-size: 8px;
+        
+     }
+     
+     button.editBtn {
+         font-size: 8px;
+     }
 
     h1 {
         font-size: 20px;
@@ -164,15 +173,24 @@ li span {
     }
 
     .datesize {
-        font-size: 8px;
+        font-size: 5px;
     }
 }
 
 /* Additional styles for very small screens like phones in portrait mode */
 @media (max-width: 480px) {
+    button.deleteBtn {
+       font-size: 5px;
+       
+    }
+    
+    button.editBtn {
+        font-size: 5px;
+    }
     .container {
         width: 90%;
         padding: 10px;
+        overflow-x: hidden;
     }
 
     h1 {
@@ -206,6 +224,6 @@ li span {
     }
 
     .datesize {
-        font-size: 8px;
+        font-size: 5px;
     }
 }
